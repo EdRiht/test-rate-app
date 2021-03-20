@@ -4,13 +4,20 @@
   </body>
   <script>
     fetch(
-      "https://bank.gov.ua/ua/markets/exchangerate-chart?cn%5B%5D=EUR&startDate=01.01.2020&endDate=25.03.2021"
-    ).then((res) => {
-      const a = res.data.split("window.exchangeRate = JSON.parse('");
-      const b = a[1].split("window.currNames");
-      const result = JSON.parse(b[0].substring(0, b[0].length - 12));
-      console.log(result);
-      document.getElementById("root").innerHTML = result;
-    });
+      "https://cors.bridged.cc/https://bank.gov.ua/ua/markets/exchangerate-chart?cn%5B%5D=EUR&startDate=01.01.2020&endDate=25.03.2021",
+      {
+        headers: {
+          accept: "application/json, text/plain, */*",
+        },
+      }
+    )
+      .then((res) => res.text())
+      .then((res) => {
+        const a = res.split("window.exchangeRate = JSON.parse('");
+        const b = a[1].split("window.currNames");
+        const result = JSON.parse(b[0].substring(0, b[0].length - 12));
+        console.log(result);
+        document.getElementById("root").innerHTML = JSON.stringify(result);
+      });
   </script>
 </html>
